@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Damian Iglesias | Docs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <style>
+    :root { --theme-color: #10b981; }
+    body { background-color: #0f172a !important; color: #e2e8f0 !important; font-family: 'Inter', sans-serif; }
+    .sidebar { background-color: #1e293b !important; border-right: 1px solid #334155 !important; color: #fff; }
+    .sidebar-nav li a { color: #94a3b8 !important; }
+    .sidebar-nav li a.active { color: #10b981 !important; border-right: 2px solid #10b981; }
+    .markdown-section { background-color: #0f172a !important; max-width: 900px; }
+    code { color: #f87171 !important; }
+  </style>
+</head>
+<body>
+  <div id="app">Loading documentation...</div>
+  <script>
+    window.$docsify = {
+      name: 'Technical Guides',
+      repo: 'https://github.com/damianiglesias',
+      loadSidebar: true,
+      subMaxLevel: 2,
+      auto2top: true
+    }
+  </script>
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+</body>
+</html>
