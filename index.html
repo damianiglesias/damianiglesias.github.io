@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio of Damian Iglesias. SysAdmin Student. Automation, Linux, Bash, Docker, and Networking projects.">
-    <title>Damian Iglesias | Portfolio </title>
+    <title>Damian Iglesias | Portfolio</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Icons (FontAwesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav>
         <div class="logo">~/damian-iglesias</div>
         <div class="socials">
             <a href="https://github.com/damianiglesias" target="_blank"><i class="fab fa-github"></i></a>
-            <!-- Add LinkedIn here later -->
             <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
     <header class="hero">
         <div class="hero-content">
             <span class="badge">Student & Tech Enthusiast</span>
@@ -36,7 +31,6 @@
         </div>
     </header>
 
-    <!-- PROJECTS SECTION -->
     <section id="projects" class="container">
         <h2><i class="fas fa-terminal"></i> Featured Projects</h2>
         
@@ -53,7 +47,7 @@
                 <ul>
                     <li>✅ Automatic installation of Pi-hole v6 & v5.</li>
                     <li>✅ Unbound configuration (Recursive DNS).</li>
-                    <li>✅ Docker & Ansible integration.</li>
+                    <li>✅ Automatic Static IP configuration (Netplan).</li>
                 </ul>
                 <div class="links">
                     <a href="https://github.com/damianiglesias/pihole-ubuntu-deploy" class="btn btn-small" target="_blank">
@@ -66,7 +60,7 @@
             </div>
         </div>
 
-        <!-- PROJECT 2: PROXMOX CASAOS  -->
+        <!-- PROJECT 2: PROXMOX CASAOS -->
         <div class="project-card featured">
             <div class="project-info">
                 <div class="project-header">
@@ -78,42 +72,45 @@
                 <p>A Bash automation script designed to instantly transform a raw Proxmox LXC container into a fully functional Home Media Server.</p>
                 <ul>
                     <li>✅ Automates system updates and tool installation (Fastfetch).</li>
-                    <li>✅ Installation of CasaOS on Proxmox.</li>
-                    <li>✅ Pre-configures directory structure for Jellyfin/Plex (/DATA/Media).</li>
-                    <li>✅ Fixes permission issues automatically.</li>
+                    <li>✅ Silent installation of CasaOS on Proxmox.</li>
+                    <li>✅ Pre-configures directory structure for Jellyfin (/DATA/Media).</li>
                 </ul>
                 <div class="links">
                     <a href="https://github.com/damianiglesias/proxmox-casaos-deploy" class="btn btn-small" target="_blank">
                         <i class="fab fa-github"></i> View Code
                     </a>
-                    <a href="https://github.com/damianiglesias/proxmox-casaos-deploy/blob/main/README.md" class="btn btn-small btn-secondary" target="_blank">
-                        <i class="fas fa-book"></i> Documentation
-                    </a>
                 </div>
             </div>
         </div>
-
     </section>
-<!-- GUIDES SECTION -->
+
+    <!-- GUIDES SECTION -->
     <section id="guides" class="container">
         <h2><i class="fas fa-book"></i> Technical Guides</h2>
         <div class="project-grid">
-            
-            <!-- GUIDE 1: PI-HOLE -->
             <div class="project-card small">
-                <h3>📖 Pi-hole v6: Manual Setup (SOON!)</h3>
-                <p>Guía paso a paso para configurar Unbound y los Upstream DNS en la nueva versión 6.</p>
+                <h3>📖 Pi-hole v6: Manual Setup</h3>
+                <p>Step-by-step guide to configure Unbound and Upstream DNS in version 6.</p>
                 <div class="tags">
                     <span class="tag">DNS</span>
                     <span class="tag">Documentation</span>
                 </div>
                 <br>
-                <a href="guides/pihole-manual-config.html" class="btn-small btn-secondary">Leer Guía</a>
+                <a href="docs/#/pihole-v6" class="btn-small btn-secondary">Read Guide</a>
             </div>
-
-            
+            <div class="project-card small">
+                <h3>📖 CasaOS on Proxmox</h3>
+                <p>How to properly set up a container for CasaOS and mount storage.</p>
+                <div class="tags">
+                    <span class="tag">LXC</span>
+                    <span class="tag">Proxmox</span>
+                </div>
+                <br>
+                <a href="docs/#/casaos-setup" class="btn-small btn-secondary">Read Guide</a>
+            </div>
         </div>
     </section>
+
     <footer>
         <p>© 2026 Damian Iglesias.</p>
     </footer>
