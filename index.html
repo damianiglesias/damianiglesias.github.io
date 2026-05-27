@@ -1,119 +1,919 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfolio of Damian Iglesias. SysAdmin Student. Automation, Linux, Bash, Docker, and Networking projects.">
-    <title>Damian Iglesias | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="Damian Iglesias — Systems Administration & Infrastructure Automation"/>
+<title>Damian Iglesias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0a0a0a;
+    --surface:#111111;
+    --border:#1e1e1e;
+    --text:#e8e8e2;
+    --muted:#5a5a52;
+    --accent:#c8f55a;
+    --accent2:#f5f55a;
+    --mono:'DM Mono',monospace;
+    --sans:'Syne',sans-serif;
+  }
+  html{scroll-behavior:smooth;cursor:none}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    overflow-x:hidden;
+    line-height:1.6;
+  }
+
+  /* Custom cursor */
+  #cursor{
+    position:fixed;width:10px;height:10px;
+    background:var(--accent);border-radius:50%;
+    pointer-events:none;z-index:9999;
+    transform:translate(-50%,-50%);
+    transition:width .2s,height .2s,background .2s;
+    mix-blend-mode:difference;
+  }
+  #cursor-ring{
+    position:fixed;width:36px;height:36px;
+    border:1px solid rgba(200,245,90,.4);border-radius:50%;
+    pointer-events:none;z-index:9998;
+    transform:translate(-50%,-50%);
+    transition:transform .12s ease,width .2s,height .2s,border-color .2s;
+  }
+  body:has(a:hover) #cursor{width:20px;height:20px}
+  body:has(a:hover) #cursor-ring{width:50px;height:50px;border-color:rgba(200,245,90,.6)}
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:2px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--accent)}
+
+  /* Nav */
+  nav{
+    position:fixed;top:0;left:0;right:0;
+    z-index:100;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:1.5rem 3rem;
+    mix-blend-mode:difference;
+  }
+  .nav-logo{
+    font-family:var(--mono);font-size:.75rem;
+    color:var(--text);text-decoration:none;
+    letter-spacing:.2em;opacity:.6;
+    transition:opacity .3s;
+  }
+  .nav-logo:hover{opacity:1}
+  .nav-links{display:flex;gap:2.5rem}
+  .nav-links a{
+    font-family:var(--mono);font-size:.7rem;
+    color:var(--text);text-decoration:none;
+    letter-spacing:.15em;opacity:.5;
+    transition:opacity .3s;
+    text-transform:uppercase;
+  }
+  .nav-links a:hover{opacity:1}
+
+  /* Progress bar */
+  #progress{
+    position:fixed;top:0;left:0;height:2px;
+    background:var(--accent);z-index:200;
+    width:0%;transition:width .1s;
+  }
+
+  /* ── HERO ── */
+  #hero{
+    min-height:100vh;display:flex;flex-direction:column;
+    justify-content:flex-end;padding:3rem;
+    position:relative;overflow:hidden;
+  }
+  .hero-bg-text{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-size:clamp(8rem,18vw,22rem);
+    font-weight:800;letter-spacing:-.04em;
+    color:transparent;
+    -webkit-text-stroke:1px rgba(255,255,255,.04);
+    white-space:nowrap;pointer-events:none;
+    user-select:none;
+    will-change:transform;
+  }
+  .hero-status{
+    display:flex;align-items:center;gap:.6rem;
+    font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.15em;color:var(--muted);
+    text-transform:uppercase;margin-bottom:2rem;
+    opacity:0;transform:translateY(20px);
+    animation:fadeUp .8s .2s forwards;
+  }
+  .hero-status-dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 8px var(--accent);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero-name{
+    font-size:clamp(3rem,9vw,9rem);
+    font-weight:800;line-height:.9;
+    letter-spacing:-.04em;
+    opacity:0;transform:translateY(40px);
+    animation:fadeUp .9s .4s forwards;
+  }
+  .hero-name span{color:var(--accent)}
+  .hero-sub{
+    margin-top:1.5rem;
+    font-family:var(--mono);font-size:.85rem;
+    color:var(--muted);max-width:360px;line-height:1.8;
+    opacity:0;transform:translateY(20px);
+    animation:fadeUp .8s .7s forwards;
+  }
+  .hero-bottom{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-top:4rem;
+    opacity:0;animation:fadeUp .8s 1s forwards;
+  }
+  .hero-cta{
+    display:inline-flex;align-items:center;gap:.8rem;
+    font-family:var(--mono);font-size:.75rem;
+    letter-spacing:.15em;text-transform:uppercase;
+    color:var(--text);text-decoration:none;
+    border:1px solid rgba(255,255,255,.15);
+    padding:.9rem 2rem;
+    transition:border-color .3s,color .3s,background .3s;
+  }
+  .hero-cta:hover{border-color:var(--accent);color:var(--accent)}
+  .hero-cta .arrow{transition:transform .3s}
+  .hero-cta:hover .arrow{transform:translateX(4px)}
+  .hero-scroll{
+    font-family:var(--mono);font-size:.65rem;
+    letter-spacing:.2em;color:var(--muted);text-transform:uppercase;
+    display:flex;align-items:center;gap:.8rem;
+  }
+  .hero-scroll-line{
+    width:40px;height:1px;background:var(--muted);
+    animation:lineExpand 1.5s 1.5s forwards;
+    transform-origin:left;transform:scaleX(0);
+  }
+  @keyframes lineExpand{to{transform:scaleX(1)}}
+  @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+  /* ── MARQUEE ── */
+  .marquee-wrapper{
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    overflow:hidden;padding:.9rem 0;
+    background:var(--surface);
+  }
+  .marquee-track{
+    display:flex;width:max-content;
+    animation:marquee 20s linear infinite;
+  }
+  .marquee-item{
+    font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);white-space:nowrap;
+    padding:0 2rem;display:flex;align-items:center;gap:2rem;
+  }
+  .marquee-item::after{
+    content:'✦';color:var(--accent);font-size:.5rem;
+  }
+  @keyframes marquee{to{transform:translateX(-50%)}}
+
+  /* ── ABOUT ── */
+  #about{
+    padding:12rem 3rem;
+    display:grid;grid-template-columns:1fr 1fr;gap:6rem;
+    max-width:1200px;margin:0 auto;
+    align-items:center;
+  }
+  .about-label{
+    font-family:var(--mono);font-size:.65rem;
+    letter-spacing:.3em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:1.5rem;
+  }
+  .about-heading{
+    font-size:clamp(2rem,4vw,3.5rem);
+    font-weight:700;line-height:1.05;letter-spacing:-.03em;
+    margin-bottom:2rem;
+  }
+  .about-text{
+    font-family:var(--mono);font-size:.82rem;
+    line-height:2;color:var(--muted);
+    margin-bottom:1.5rem;
+  }
+  .about-text span{color:var(--text)}
+  .about-stats{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:2rem;
+  }
+  .stat-item{}
+  .stat-num{
+    font-size:3rem;font-weight:800;
+    letter-spacing:-.05em;color:var(--accent);
+    line-height:1;
+  }
+  .stat-label{
+    font-family:var(--mono);font-size:.65rem;
+    letter-spacing:.15em;text-transform:uppercase;
+    color:var(--muted);margin-top:.3rem;
+  }
+
+  /* ── SKILLS ── */
+  #skills{
+    padding:8rem 3rem;
+    border-top:1px solid var(--border);
+  }
+  .skills-inner{max-width:1200px;margin:0 auto}
+  .skills-header{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:5rem;
+  }
+  .skills-heading{
+    font-size:clamp(2rem,4vw,3.5rem);
+    font-weight:700;letter-spacing:-.03em;
+  }
+  .skills-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:1px;background:var(--border);
+  }
+  .skill-card{
+    background:var(--bg);padding:2.5rem;
+    transition:background .3s;
+    position:relative;overflow:hidden;
+  }
+  .skill-card::before{
+    content:'';position:absolute;inset:0;
+    background:var(--accent);opacity:0;
+    transition:opacity .3s;
+    clip-path:circle(0% at 0% 100%);
+    transition:clip-path .6s cubic-bezier(.4,0,.2,1),opacity .3s;
+  }
+  .skill-card:hover::before{
+    clip-path:circle(150% at 0% 100%);opacity:.05;
+  }
+  .skill-icon{
+    font-size:1.5rem;margin-bottom:1.5rem;
+    display:block;color:var(--accent);
+    font-family:var(--mono);
+  }
+  .skill-name{
+    font-size:1.1rem;font-weight:600;
+    letter-spacing:-.02em;margin-bottom:.8rem;
+  }
+  .skill-tags{
+    display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem;
+  }
+  .skill-tag{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--border);
+    padding:.3rem .6rem;
+  }
+  .skill-desc{
+    font-family:var(--mono);font-size:.75rem;
+    color:var(--muted);line-height:1.8;
+  }
+
+  /* ── PROJECTS ── */
+  #projects{
+    padding:10rem 3rem;
+    border-top:1px solid var(--border);
+  }
+  .projects-inner{max-width:1200px;margin:0 auto}
+  .section-label{
+    font-family:var(--mono);font-size:.65rem;
+    letter-spacing:.3em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:1rem;
+  }
+  .section-heading{
+    font-size:clamp(2rem,4vw,3.5rem);
+    font-weight:700;letter-spacing:-.03em;margin-bottom:5rem;
+  }
+  .projects-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+  .project-item{
+    background:var(--bg);
+    display:grid;grid-template-columns:80px 1fr auto;
+    align-items:start;gap:3rem;padding:2.5rem 3rem;
+    text-decoration:none;color:var(--text);
+    transition:background .3s;position:relative;
+    overflow:hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .project-item:last-child{border-bottom:none}
+  .project-item::after{
+    content:'';position:absolute;left:0;top:0;bottom:0;
+    width:3px;background:var(--accent);
+    transform:scaleY(0);transform-origin:bottom;
+    transition:transform .4s cubic-bezier(.4,0,.2,1);
+  }
+  .project-item:hover{background:var(--surface)}
+  .project-item:hover::after{transform:scaleY(1)}
+  .project-num{
+    font-family:var(--mono);font-size:.7rem;
+    letter-spacing:.1em;color:var(--muted);
+    padding-top:.3rem;
+  }
+  .project-main{}
+  .project-title{
+    font-size:1.4rem;font-weight:700;
+    letter-spacing:-.02em;margin-bottom:.6rem;
+    transition:color .3s;
+  }
+  .project-item:hover .project-title{color:var(--accent)}
+  .project-desc{
+    font-family:var(--mono);font-size:.75rem;
+    color:var(--muted);line-height:1.8;max-width:500px;
+    margin-bottom:1rem;
+  }
+  .project-features{
+    list-style:none;
+  }
+  .project-features li{
+    font-family:var(--mono);font-size:.7rem;
+    color:var(--muted);padding:.2rem 0;
+    display:flex;align-items:flex-start;gap:.5rem;
+  }
+  .project-features li::before{content:'→';color:var(--accent);flex-shrink:0}
+  .project-badges{
+    display:flex;flex-wrap:wrap;gap:.4rem;
+  }
+  .badge{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    padding:.3rem .8rem;border:1px solid var(--border);
+    color:var(--muted);
+  }
+  .project-arrow{
+    font-size:1.5rem;color:var(--muted);
+    transition:transform .3s,color .3s;
+    padding-top:.2rem;
+    align-self:center;
+  }
+  .project-item:hover .project-arrow{
+    transform:translate(4px,-4px);color:var(--accent);
+  }
+
+  /* ── GUIDES ── */
+  #guides{
+    padding:8rem 3rem;
+    border-top:1px solid var(--border);
+    background:var(--surface);
+  }
+  .guides-inner{max-width:1200px;margin:0 auto}
+  .guides-grid{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:1px;background:var(--border);margin-top:4rem;
+  }
+  .guide-card{
+    background:var(--surface);padding:2.5rem;
+    text-decoration:none;color:var(--text);
+    display:flex;flex-direction:column;gap:1rem;
+    transition:background .3s;
+    position:relative;
+  }
+  .guide-card:hover{background:#161616}
+  .guide-status{
+    font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.15em;text-transform:uppercase;
+    color:var(--muted);
+    display:flex;align-items:center;gap:.5rem;
+  }
+  .guide-status-badge{
+    background:rgba(200,245,90,.1);
+    border:1px solid rgba(200,245,90,.2);
+    color:var(--accent);
+    font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;
+    font-family:var(--mono);padding:.2rem .5rem;
+  }
+  .guide-title{
+    font-size:1.2rem;font-weight:600;letter-spacing:-.02em;
+    transition:color .3s;
+  }
+  .guide-card:hover .guide-title{color:var(--accent)}
+  .guide-desc{
+    font-family:var(--mono);font-size:.72rem;
+    color:var(--muted);line-height:1.8;
+    flex:1;
+  }
+  .guide-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+  .guide-tag{
+    font-family:var(--mono);font-size:.58rem;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);border:1px solid var(--border);
+    padding:.25rem .5rem;
+  }
+
+  /* ── CONTACT ── */
+  #contact{
+    padding:12rem 3rem;
+    border-top:1px solid var(--border);
+    text-align:center;
+    position:relative;overflow:hidden;
+  }
+  .contact-bg{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:600px;height:600px;
+    background:radial-gradient(circle,rgba(200,245,90,.04) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .contact-label{
+    font-family:var(--mono);font-size:.65rem;
+    letter-spacing:.3em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:2rem;
+  }
+  .contact-heading{
+    font-size:clamp(3rem,8vw,8rem);
+    font-weight:800;letter-spacing:-.04em;
+    line-height:.9;margin-bottom:3rem;
+  }
+  .contact-heading span{
+    color:transparent;
+    -webkit-text-stroke:1px rgba(255,255,255,.3);
+  }
+  .contact-links{
+    display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;
+  }
+  .contact-link{
+    display:inline-flex;align-items:center;gap:.6rem;
+    font-family:var(--mono);font-size:.75rem;
+    letter-spacing:.15em;text-transform:uppercase;
+    color:var(--text);text-decoration:none;
+    padding:.9rem 2rem;
+    border:1px solid rgba(255,255,255,.15);
+    transition:border-color .3s,color .3s;
+  }
+  .contact-link:hover{border-color:var(--accent);color:var(--accent)}
+  .contact-link.primary{
+    background:var(--accent);color:#0a0a0a;
+    border-color:var(--accent);
+  }
+  .contact-link.primary:hover{background:transparent;color:var(--accent)}
+
+  /* ── FOOTER ── */
+  footer{
+    padding:2rem 3rem;
+    border-top:1px solid var(--border);
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .footer-copy{
+    font-family:var(--mono);font-size:.65rem;
+    letter-spacing:.1em;color:var(--muted);
+  }
+  .footer-links{display:flex;gap:2rem}
+  .footer-links a{
+    font-family:var(--mono);font-size:.65rem;
+    letter-spacing:.1em;color:var(--muted);
+    text-decoration:none;transition:color .3s;
+  }
+  .footer-links a:hover{color:var(--text)}
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal{
+    opacity:0;transform:translateY(40px);
+    transition:opacity .8s cubic-bezier(.4,0,.2,1),
+               transform .8s cubic-bezier(.4,0,.2,1);
+  }
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .reveal-left{
+    opacity:0;transform:translateX(-40px);
+    transition:opacity .8s cubic-bezier(.4,0,.2,1),
+               transform .8s cubic-bezier(.4,0,.2,1);
+  }
+  .reveal-left.visible{opacity:1;transform:translateX(0)}
+
+  /* Stagger delays */
+  .delay-1{transition-delay:.1s}
+  .delay-2{transition-delay:.2s}
+  .delay-3{transition-delay:.3s}
+  .delay-4{transition-delay:.4s}
+  .delay-5{transition-delay:.5s}
+
+  /* ── MOBILE ── */
+  @media(max-width:768px){
+    nav{padding:1.2rem 1.5rem}
+    .nav-links{gap:1.2rem}
+    #hero,#about,#skills,#projects,#guides,#contact{padding-left:1.5rem;padding-right:1.5rem}
+    #about{grid-template-columns:1fr;gap:3rem;padding-top:6rem;padding-bottom:6rem}
+    .skills-grid{grid-template-columns:1fr}
+    .project-item{grid-template-columns:40px 1fr;gap:1.5rem;padding:1.5rem}
+    .project-arrow{display:none}
+    .guides-grid{grid-template-columns:1fr}
+    footer{flex-direction:column;gap:1rem;text-align:center}
+    .hero-bottom{flex-direction:column;align-items:flex-start;gap:2rem}
+    #contact{padding-top:8rem;padding-bottom:8rem}
+  }
+
+  /* Horizontal scroll section */
+  #tech-strip{
+    overflow:hidden;
+    padding:5rem 0;
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    position:relative;
+  }
+  .tech-strip-inner{
+    display:flex;gap:4rem;align-items:center;
+    width:max-content;
+    will-change:transform;
+  }
+  .tech-item{
+    display:flex;flex-direction:column;align-items:center;gap:.8rem;
+    flex-shrink:0;
+  }
+  .tech-name{
+    font-family:var(--mono);font-size:.65rem;
+    letter-spacing:.2em;text-transform:uppercase;
+    color:var(--muted);
+  }
+  .tech-dot{
+    width:50px;height:50px;
+    border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:.7rem;
+    color:var(--muted);font-weight:500;
+    transition:border-color .3s,color .3s;
+  }
+  .tech-item:hover .tech-dot{border-color:var(--accent);color:var(--accent)}
+</style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">~/damian-iglesias</div>
-        <div class="socials">
-            <a href="https://github.com/damianiglesias" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div id="progress"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">DI</a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Work</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg-text" id="heroParallax">DAMIAN</div>
+  <div class="hero-status">
+    <div class="hero-status-dot"></div>
+    Available for opportunities · Valladolid, Spain
+  </div>
+  <h1 class="hero-name">
+    Damian<br/>
+    <span>Iglesias</span>
+  </h1>
+  <p class="hero-sub">
+    Systems Administration & Networking Student.<br/>
+    Automating infrastructure, one script at a time.
+  </p>
+  <div class="hero-bottom">
+    <a href="#projects" class="hero-cta">
+      View my work <span class="arrow">→</span>
+    </a>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      Scroll to explore
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-wrapper">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item">Linux</div>
+    <div class="marquee-item">Bash Scripting</div>
+    <div class="marquee-item">Docker</div>
+    <div class="marquee-item">Ansible</div>
+    <div class="marquee-item">Proxmox</div>
+    <div class="marquee-item">Networking</div>
+    <div class="marquee-item">Cybersecurity</div>
+    <div class="marquee-item">Pi-hole</div>
+    <div class="marquee-item">DNS</div>
+    <div class="marquee-item">Infrastructure</div>
+    <div class="marquee-item">Linux</div>
+    <div class="marquee-item">Bash Scripting</div>
+    <div class="marquee-item">Docker</div>
+    <div class="marquee-item">Ansible</div>
+    <div class="marquee-item">Proxmox</div>
+    <div class="marquee-item">Networking</div>
+    <div class="marquee-item">Cybersecurity</div>
+    <div class="marquee-item">Pi-hole</div>
+    <div class="marquee-item">DNS</div>
+    <div class="marquee-item">Infrastructure</div>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div>
+    <p class="about-label reveal">01 — About</p>
+    <h2 class="about-heading reveal delay-1">
+      Building the<br/>backbone of<br/>the internet.
+    </h2>
+    <p class="about-text reveal delay-2">
+      I'm a <span>Systems Administration & Networking</span> student based in Valladolid, Spain. I'm passionate about Linux, infrastructure automation, and cybersecurity.
+    </p>
+    <p class="about-text reveal delay-3">
+      I build <span>automation tools</span> that eliminate manual work — from auto-deploying secure DNS servers to spinning up full home lab environments with a single script.
+    </p>
+    <a href="https://github.com/damianiglesias" target="_blank" class="hero-cta reveal delay-4" style="display:inline-flex;margin-top:1.5rem;">
+      GitHub Profile <span class="arrow">→</span>
+    </a>
+  </div>
+  <div class="about-stats">
+    <div class="stat-item reveal delay-1">
+      <div class="stat-num">2+</div>
+      <div class="stat-label">Open Source Projects</div>
+    </div>
+    <div class="stat-item reveal delay-2">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Commands Memorized</div>
+    </div>
+    <div class="stat-item reveal delay-3">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Linux First</div>
+    </div>
+    <div class="stat-item reveal delay-4">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Windows Servers</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECH STRIP ── -->
+<div id="tech-strip">
+  <div class="tech-strip-inner" id="techStrip">
+    <div class="tech-item"><div class="tech-dot">LX</div><div class="tech-name">Linux</div></div>
+    <div class="tech-item"><div class="tech-dot">SH</div><div class="tech-name">Bash</div></div>
+    <div class="tech-item"><div class="tech-dot">DK</div><div class="tech-name">Docker</div></div>
+    <div class="tech-item"><div class="tech-dot">AN</div><div class="tech-name">Ansible</div></div>
+    <div class="tech-item"><div class="tech-dot">PX</div><div class="tech-name">Proxmox</div></div>
+    <div class="tech-item"><div class="tech-dot">GH</div><div class="tech-name">Git</div></div>
+    <div class="tech-item"><div class="tech-dot">NW</div><div class="tech-name">Netplan</div></div>
+    <div class="tech-item"><div class="tech-dot">UN</div><div class="tech-name">Unbound</div></div>
+    <div class="tech-item"><div class="tech-dot">PH</div><div class="tech-name">Pi-hole</div></div>
+    <div class="tech-item"><div class="tech-dot">CS</div><div class="tech-name">CasaOS</div></div>
+    <div class="tech-item"><div class="tech-dot">LX</div><div class="tech-name">Linux</div></div>
+    <div class="tech-item"><div class="tech-dot">SH</div><div class="tech-name">Bash</div></div>
+    <div class="tech-item"><div class="tech-dot">DK</div><div class="tech-name">Docker</div></div>
+    <div class="tech-item"><div class="tech-dot">AN</div><div class="tech-name">Ansible</div></div>
+    <div class="tech-item"><div class="tech-dot">PX</div><div class="tech-name">Proxmox</div></div>
+    <div class="tech-item"><div class="tech-dot">GH</div><div class="tech-name">Git</div></div>
+  </div>
+</div>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="skills-inner">
+    <div class="skills-header">
+      <h2 class="skills-heading reveal">Stack &<br/>Expertise</h2>
+      <p class="about-text reveal delay-2" style="max-width:300px">The tools and technologies I work with daily.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <span class="skill-icon">01</span>
+        <div class="skill-name">Infrastructure Automation</div>
+        <p class="skill-desc">Designing and deploying automated infrastructure pipelines. From bare metal to production in minutes.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Ansible</span>
+          <span class="skill-tag">Bash</span>
+          <span class="skill-tag">Docker</span>
         </div>
-    </nav>
-
-    <header class="hero">
-        <div class="hero-content">
-            <span class="badge">Student & Tech Enthusiast</span>
-            <h1>Automating Infrastructure,<br>and much more!</h1>
-            <p>Systems Administration & Networking Student. Passionate about Linux, Cybersecurity, and Infrastructure Automation.</p>
-            <div class="hero-btns">
-                <a href="#projects" class="btn btn-primary">View Projects</a>
-                <a href="https://github.com/damianiglesias" class="btn btn-outline">GitHub Profile</a>
-            </div>
+      </div>
+      <div class="skill-card reveal delay-1">
+        <span class="skill-icon">02</span>
+        <div class="skill-name">Linux Systems</div>
+        <p class="skill-desc">Deep expertise in Linux administration. Server hardening, networking, package management, and system optimization.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Ubuntu</span>
+          <span class="skill-tag">Debian</span>
+          <span class="skill-tag">Netplan</span>
         </div>
-    </header>
-
-    <section id="projects" class="container">
-        <h2><i class="fas fa-terminal"></i> Featured Projects</h2>
-        
-        <!-- PROJECT 1: PI-HOLE -->
-        <div class="project-card featured">
-            <div class="project-info">
-                <div class="project-header">
-                    <h3>🛡️ Pi-hole & Unbound Auto-Deploy</h3>
-                    <span class="tag">Bash</span>
-                    <span class="tag">Ansible</span>
-                    <span class="tag">Docker</span>
-                </div>
-                <p>Complete automation suite to deploy a secure and private DNS server on Ubuntu Server. It handles network configuration and security hardening automatically.</p>
-                <ul>
-                    <li>✅ Automatic installation of Pi-hole v6 & v5.</li>
-                    <li>✅ Unbound configuration (Recursive DNS).</li>
-                    <li>✅ Automatic Static IP configuration (Netplan).</li>
-                </ul>
-                <div class="links">
-                    <a href="https://github.com/damianiglesias/pihole-ubuntu-deploy" class="btn btn-small" target="_blank">
-                        <i class="fab fa-github"></i> View Code
-                    </a>
-                    <a href="https://github.com/damianiglesias/pihole-ubuntu-deploy/blob/main/README.md" class="btn btn-small btn-secondary" target="_blank">
-                        <i class="fas fa-book"></i> Documentation
-                    </a>
-                </div>
-            </div>
+      </div>
+      <div class="skill-card reveal delay-2">
+        <span class="skill-icon">03</span>
+        <div class="skill-name">Networking & DNS</div>
+        <p class="skill-desc">Configuring secure, recursive DNS infrastructure. Network topology design and private DNS resolution.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Pi-hole</span>
+          <span class="skill-tag">Unbound</span>
+          <span class="skill-tag">BIND</span>
         </div>
-
-        <!-- PROJECT 2: PROXMOX CASAOS -->
-        <div class="project-card featured">
-            <div class="project-info">
-                <div class="project-header">
-                    <h3>🏠 Proxmox CasaOS Auto-Deployer</h3>
-                    <span class="tag">Bash</span>
-                    <span class="tag">Proxmox LXC</span>
-                    <span class="tag">CasaOS</span>
-                </div>
-                <p>A Bash automation script designed to instantly transform a raw Proxmox LXC container into a fully functional Home Media Server.</p>
-                <ul>
-                    <li>✅ Automates system updates and tool installation (Fastfetch).</li>
-                    <li>✅ Silent installation of CasaOS on Proxmox.</li>
-                    <li>✅ Pre-configures directory structure for Jellyfin (/DATA/Media).</li>
-                </ul>
-                <div class="links">
-                    <a href="https://github.com/damianiglesias/proxmox-casaos-deploy" class="btn btn-small" target="_blank">
-                        <i class="fab fa-github"></i> View Code
-                    </a>
-                </div>
-            </div>
+      </div>
+      <div class="skill-card reveal delay-1">
+        <span class="skill-icon">04</span>
+        <div class="skill-name">Virtualization</div>
+        <p class="skill-desc">Managing hypervisors and container environments. Proxmox LXC containers and VM orchestration.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Proxmox</span>
+          <span class="skill-tag">LXC</span>
+          <span class="skill-tag">KVM</span>
         </div>
-    </section>
-
-    <!-- GUIDES SECTION -->
-    <section id="guides" class="container">
-        <h2><i class="fas fa-book"></i> Technical Guides (Soon!)</h2>
-        <div class="project-grid">
-            <div class="project-card small">
-                <h3>📖 Pi-hole v6: Manual Setup</h3>
-                <p>Step-by-step guide to configure Unbound and Upstream DNS in version 6.</p>
-                <div class="tags">
-                    <span class="tag">DNS</span>
-                    <span class="tag">Documentation</span>
-                </div>
-                <br>
-                <a href="docs/#/pihole-v6" class="btn-small btn-secondary">Read Guide</a>
-            </div>
-            <div class="project-card small">
-                <h3>📖 CasaOS on Proxmox</h3>
-                <p>How to properly set up a container for CasaOS and mount storage.</p>
-                <div class="tags">
-                    <span class="tag">LXC</span>
-                    <span class="tag">Proxmox</span>
-                </div>
-                <br>
-                <a href="docs/#/casaos-setup" class="btn-small btn-secondary">Read Guide</a>
-            </div>
+      </div>
+      <div class="skill-card reveal delay-2">
+        <span class="skill-icon">05</span>
+        <div class="skill-name">Cybersecurity</div>
+        <p class="skill-desc">Implementing security hardening, firewall rules, and privacy-first DNS to protect infrastructure from threats.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">UFW</span>
+          <span class="skill-tag">SSH Hardening</span>
+          <span class="skill-tag">DNS-over-TLS</span>
         </div>
-    </section>
+      </div>
+      <div class="skill-card reveal delay-3">
+        <span class="skill-icon">06</span>
+        <div class="skill-name">Home Lab & Self-Hosting</div>
+        <p class="skill-desc">Building and managing personal cloud infrastructure. Media servers, smart home, and self-hosted services.</p>
+        <div class="skill-tags">
+          <span class="skill-tag">CasaOS</span>
+          <span class="skill-tag">Jellyfin</span>
+          <span class="skill-tag">Self-hosting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <footer>
-        <p>© 2026 Damian Iglesias.</p>
-    </footer>
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="projects-inner">
+    <p class="section-label reveal">02 — Projects</p>
+    <h2 class="section-heading reveal delay-1">Selected Work</h2>
+    <div class="projects-list">
 
+      <a href="https://github.com/damianiglesias/pihole-ubuntu-deploy" target="_blank" class="project-item reveal">
+        <div class="project-num">01</div>
+        <div class="project-main">
+          <h3 class="project-title">Pi-hole & Unbound Auto-Deploy</h3>
+          <p class="project-desc">Complete automation suite to deploy a secure and private DNS server on Ubuntu Server. Handles network configuration and security hardening automatically.</p>
+          <ul class="project-features">
+            <li>Automatic installation of Pi-hole v6 & v5</li>
+            <li>Unbound configuration with recursive DNS</li>
+            <li>Automatic static IP configuration via Netplan</li>
+          </ul>
+          <div class="project-badges" style="margin-top:1rem">
+            <span class="badge">Bash</span>
+            <span class="badge">Ansible</span>
+            <span class="badge">Docker</span>
+            <span class="badge">Ubuntu Server</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a href="https://github.com/damianiglesias/proxmox-casaos-deploy" target="_blank" class="project-item reveal">
+        <div class="project-num">02</div>
+        <div class="project-main">
+          <h3 class="project-title">Proxmox CasaOS Auto-Deployer</h3>
+          <p class="project-desc">A Bash automation script that instantly transforms a raw Proxmox LXC container into a fully functional Home Media Server with zero manual steps.</p>
+          <ul class="project-features">
+            <li>Automates system updates and tool installation</li>
+            <li>Silent installation of CasaOS on Proxmox</li>
+            <li>Pre-configures directory structure for Jellyfin</li>
+          </ul>
+          <div class="project-badges" style="margin-top:1rem">
+            <span class="badge">Bash</span>
+            <span class="badge">Proxmox</span>
+            <span class="badge">LXC</span>
+            <span class="badge">CasaOS</span>
+          </div>
+        </div>
+        <div class="project-arrow">↗</div>
+      </a>
+
+      <a href="https://github.com/damianiglesias" target="_blank" class="project-item reveal" style="opacity:.4;pointer-events:none">
+        <div class="project-num">03</div>
+        <div class="project-main">
+          <h3 class="project-title">Coming Soon</h3>
+          <p class="project-desc">More projects in the works. Check GitHub for the latest updates.</p>
+        </div>
+        <div class="project-arrow" style="opacity:.3">↗</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── GUIDES ── -->
+<section id="guides">
+  <div class="guides-inner">
+    <p class="section-label reveal">03 — Documentation</p>
+    <h2 class="section-heading reveal delay-1">Technical Guides</h2>
+    <div class="guides-grid">
+      <a href="https://damianiglesias.github.io/docs/#/pihole-v6" class="guide-card reveal">
+        <div class="guide-status">
+          <span class="guide-status-badge">Soon</span>
+          DNS · Documentation
+        </div>
+        <h3 class="guide-title">Pi-hole v6: Manual Setup</h3>
+        <p class="guide-desc">Step-by-step guide to configure Unbound and Upstream DNS in version 6 of Pi-hole. Covers all the gotchas in the new interface.</p>
+        <div class="guide-tags">
+          <span class="guide-tag">DNS</span>
+          <span class="guide-tag">Pi-hole</span>
+          <span class="guide-tag">Unbound</span>
+        </div>
+      </a>
+      <a href="https://damianiglesias.github.io/docs/#/casaos-setup" class="guide-card reveal delay-1">
+        <div class="guide-status">
+          <span class="guide-status-badge">Soon</span>
+          LXC · Proxmox
+        </div>
+        <h3 class="guide-title">CasaOS on Proxmox</h3>
+        <p class="guide-desc">How to properly set up a Proxmox LXC container for CasaOS and mount external storage for media management.</p>
+        <div class="guide-tags">
+          <span class="guide-tag">Proxmox</span>
+          <span class="guide-tag">LXC</span>
+          <span class="guide-tag">CasaOS</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-bg"></div>
+  <p class="contact-label reveal">04 — Contact</p>
+  <h2 class="contact-heading reveal delay-1">
+    Let's<br/><span>work</span><br/>together
+  </h2>
+  <div class="contact-links reveal delay-2">
+    <a href="https://github.com/damianiglesias" target="_blank" class="contact-link primary">
+      GitHub ↗
+    </a>
+    <a href="mailto:contact@damianiglesias.dev" class="contact-link">
+      Email me
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-copy">© 2026 Damian Iglesias. Built with HTML & no frameworks.</p>
+  <div class="footer-links">
+    <a href="https://github.com/damianiglesias" target="_blank">GitHub</a>
+    <a href="#hero">Back to top ↑</a>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cursor.style.left=mx+'px';cursor.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+// Progress bar
+const bar = document.getElementById('progress');
+window.addEventListener('scroll',()=>{
+  const h = document.documentElement;
+  const pct = h.scrollTop/(h.scrollHeight-h.clientHeight)*100;
+  bar.style.width=pct+'%';
+});
+
+// Hero parallax
+const heroP = document.getElementById('heroParallax');
+window.addEventListener('scroll',()=>{
+  const y = window.scrollY;
+  heroP.style.transform=`translate(-50%,calc(-50% + ${y*.3}px))`;
+});
+
+// Tech strip parallax on scroll
+const techStrip = document.getElementById('techStrip');
+window.addEventListener('scroll',()=>{
+  const section = document.getElementById('tech-strip');
+  const rect = section.getBoundingClientRect();
+  if(rect.top < window.innerHeight && rect.bottom > 0){
+    const progress = 1 - (rect.top / window.innerHeight);
+    const move = progress * -300;
+    techStrip.style.transform = `translateX(${move}px)`;
+  }
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal,.reveal-left');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+reveals.forEach(el=>observer.observe(el));
+</script>
 </body>
 </html>
