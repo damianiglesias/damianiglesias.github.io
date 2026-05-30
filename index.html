@@ -144,6 +144,15 @@
   @keyframes lineExpand{to{transform:scaleX(1)}}
   @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
 
+  /* Typewriter reveal */
+  .tw-reveal{
+    display:inline;
+    clip-path:inset(0 100% 0 0);
+    animation:twReveal 1.2s cubic-bezier(.4,0,.2,1) forwards;
+    animation-delay:.3s;
+  }
+  @keyframes twReveal{to{clip-path:inset(0 0% 0 0)}}
+
   /* ── MARQUEE ── */
   .marquee-wrapper{
     border-top:1px solid var(--border);
@@ -542,15 +551,15 @@
   <div class="hero-bg-text" id="heroParallax">DAMIAN</div>
   <div class="hero-status">
     <div class="hero-status-dot"></div>
-    Available for opportunities · Valladolid, Spain
+    <span class="tw-reveal">Available for opportunities · Valladolid, Spain</span>
   </div>
   <h1 class="hero-name">
     Damian<br/>
     <span>Iglesias</span>
   </h1>
   <p class="hero-sub">
-    Systems Administration & Networking Student.<br/>
-    Automating infrastructure, one script at a time.
+    <span class="tw-reveal" style="animation-delay:.9s">Systems Administration & Networking Student.</span><br/>
+    <span class="tw-reveal" style="animation-delay:1.1s">Automating infrastructure, one script at a time.</span>
   </p>
   <div class="hero-bottom">
     <a href="#projects" class="hero-cta">
