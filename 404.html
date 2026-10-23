@@ -5,25 +5,36 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="dark light">
-<title>404 — Page not found · Damian Iglesias</title>
+<title>404 — Kernel panic · Damian Iglesias</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
   :root{--bg:#0a0a0a;--ink:#f4f4f5;--muted:#8b8b92;--line:#3a3a3a}
-  @media (prefers-color-scheme:light){:root{--bg:#fafafa;--ink:#0a0a0a;--muted:#6b6b73;--line:#d4d4d8}}
+  @media (prefers-color-scheme:light){:root{--bg:#fafafa;--ink:#0a0a0a;--muted:#5a5a62;--line:#d4d4d8}}
   *{box-sizing:border-box;margin:0}
-  body{min-height:100svh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--ink);font:400 17px/1.6 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  main{max-width:520px}
-  h1{font-size:clamp(72px,18vw,160px);font-weight:700;letter-spacing:-.04em;line-height:1}
-  p{margin:16px 0 28px;color:var(--muted)}
-  a{display:inline-block;padding:12px 24px;border-radius:999px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:500;transition:background .25s,color .25s}
+  body{min-height:100svh;display:grid;place-items:center;padding:24px;background:var(--bg);color:var(--ink);font:400 15px/1.7 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;-webkit-font-smoothing:antialiased}
+  main{width:100%;max-width:680px}
+  h1{font:700 clamp(15px,3.6vw,20px)/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;margin-bottom:18px}
+  pre{white-space:pre-wrap;color:var(--muted);margin-bottom:26px}
+  .cur{display:inline-block;width:.6em;height:1.1em;background:var(--ink);vertical-align:text-bottom;animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  a{display:inline-block;padding:11px 22px;border-radius:999px;border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;transition:background .25s,color .25s}
   a:hover,a:focus-visible{background:var(--ink);color:var(--bg)}
+  @media (prefers-reduced-motion:reduce){.cur{animation:none}}
 </style>
 </head>
 <body>
 <main>
-  <h1>404</h1>
-  <p>This page doesn't exist. / Esta página no existe.</p>
-  <a href="/">damianiglesias.github.io</a>
+  <h1>Kernel panic - not syncing: 404 page not found</h1>
+<pre>CPU: 0 PID: 404 Comm: browser Not tainted 6.16.1-amnesia
+Call Trace:
+ dump_stack+0x4e/0x60
+ vfs_lookup+0x1c4/0x2a0     [ /this/page ]
+ do_sys_open+0x37/0x90
+---[ end Kernel panic - not syncing: no such page ]---
+
+Esta página no existe. / This page doesn't exist.
+Rebooting<span class="cur" aria-hidden="true"></span></pre>
+  <a href="/">reboot → damianiglesias.github.io</a>
 </main>
 </body>
 </html>
